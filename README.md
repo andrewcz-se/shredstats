@@ -1,16 +1,30 @@
-# React + Vite
+# **Shred Test - Guitar Technique Tracker**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+I created this React application to help my daughter track her practice progress, manage training plans, and visualize improvement over time. Built with **React**, **Vite**, and **Firebase**.
 
-Currently, two official plugins are available:
+## **Features**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **User Authentication**: Secure email/password login and registration via Firebase Auth.  
+* **Cloud Sync**: All data is stored securely in Cloud Firestore, allowing access across multiple devices.  
+* **Custom Practice Plans**: Create personalized training routines by selecting from a library of techniques (Legato, Tapping, Sweep Picking, etc.) inspired by my daughter's favourite guitar legends. You can add extra practice techniques by modifying the JSON schema in the app source code.
+* **Progress Tracking**: Log daily metrics like Speed (BPM), Accuracy (%), Cleanliness, and Stamina.  
+* **Visual Analytics**: View interactive charts (powered by Recharts) to analyze trends and week-over-week improvement.  
+* **Export & Print**: Export data to CSV or generate printer-friendly reports of progress graphs.  
 
-## React Compiler
+## ** Usage Guide**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **Dashboard**
 
-## Expanding the ESLint configuration
+* **Weekly View**: Shows which days you have logged practice (marked with a green check).  
+* **Logging**: Select a date and your current plan. Enter values for the specific metrics (e.g., 120 BPM) and click **Save Progress**.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### **Plans**
+
+* **Create Plan**: Click "Create New Plan", name it (e.g., "Shred Routine"), and add techniques from the library.  
+* **Edit/Delete**: You can modify plans at any time. *Note: Deleting a plan removes associated stats.*
+
+### **Statistics**
+
+* **Analysis**: Select a specific technique and metric (e.g., "Legato - Speed") to see a line graph of your progress.  
+* **KPIs**: View your "All-Time Best" and "Progress vs Previous Session".  
+* **Export**: Use the "Export CSV" button to download raw data or "Print" for a paper copy.
