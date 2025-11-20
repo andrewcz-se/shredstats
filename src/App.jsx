@@ -237,6 +237,30 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
+const Toast = ({ message, type = 'success', onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 3000); // Auto-hide after 3 seconds
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  const styles = {
+    success: "bg-green-600 text-white",
+    error: "bg-red-600 text-white",
+    info: "bg-gray-800 text-white"
+  };
+
+  return (
+    <div className={`fixed bottom-5 right-5 z-50 flex items-center px-4 py-3 rounded-lg shadow-lg transition-all transform duration-300 ease-in-out ${styles[type]}`}>
+      {type === 'success' && <CheckCircle2 size={20} className="mr-2" />}
+      {type === 'error' && <AlertCircle size={20} className="mr-2" />}
+      <span className="font-medium">{message}</span>
+      <button onClick={onClose} className="ml-3 opacity-80 hover:opacity-100">
+        <X size={16} />
+      </button>
+    </div>
+  );
+};
+
 // --- CORE COMPONENTS ---
 
 const StatGraph = ({ data, dataKey, name, unit, isPrint = false }) => {
@@ -377,7 +401,7 @@ const AuthScreen = () => {
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
         <div className="text-center mb-6">
           <Guitar size={48} className="mx-auto text-blue-600 mb-2" />
-          <h2 className="text-2xl font-bold text-gray-800">Shred Stats!</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Shred Stats</h2>
           <p className="text-gray-500">{isSignUp ? 'Create an account' : 'Sign in to your account'}</p>
         </div>
         
@@ -463,7 +487,7 @@ const Navbar = ({ setPage, page }) => {
       <header className="sticky top-0 z-10 flex md:hidden items-center justify-between bg-white p-4 border-b border-gray-200 print-hide">
         <div className="flex items-center space-x-2">
           <Guitar size={24} className="text-blue-600" />
-          <span className="font-bold text-lg">Shred Stats</span>
+          <span className="font-bold text-lg">Tracker</span>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           <Menu size={24} />
@@ -480,7 +504,7 @@ const Navbar = ({ setPage, page }) => {
           {/* Desktop Header */}
           <div className="hidden md:flex items-center space-x-3 mb-6">
             <Guitar size={32} className="text-blue-600" />
-            <span className="font-bold text-2xl text-gray-800">Shred Stats</span>
+            <span className="font-bold text-2xl text-gray-800">Tracker</span>
           </div>
 
           <nav className="flex flex-col space-y-2">
@@ -523,6 +547,7 @@ const DashboardView = () => {
   const [selectedPlanId, setSelectedPlanId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [progressData, setProgressData] = useState({});
+  const [toast, setToast] = useState(null);
 
   const plans = useMemo(() => userData.plans || [], [userData]);
 
@@ -583,8 +608,10 @@ const DashboardView = () => {
       if (existingEntryIndex > -1) {
         newProgress.splice(existingEntryIndex, 1);
         await updateUserData({ progress: newProgress });
+        setToast({ message: "Empty entry removed.", type: "info" });
+      } else {
+        setToast({ message: "No data entered to save.", type: "info" });
       }
-      alert("No data to save.");
       return;
     }
 
@@ -601,8 +628,12 @@ const DashboardView = () => {
       newProgress.push(newEntry);
     }
     
-    await updateUserData({ progress: newProgress });
-    //alert("Progress saved!");
+    try {
+      await updateUserData({ progress: newProgress });
+      setToast({ message: "Progress saved successfully!", type: "success" });
+    } catch (e) {
+      setToast({ message: "Failed to save progress.", type: "error" });
+    }
   };
   
   const getWeekDays = (dateStr) => {
@@ -628,6 +659,7 @@ const DashboardView = () => {
 
   return (
     <div className="p-6">
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
       
       {plans.length === 0 ? (
