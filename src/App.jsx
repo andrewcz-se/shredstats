@@ -109,35 +109,6 @@ const GUITARISTS_DATA = [
 
 const TECHNIQUES_DATA = [
   {
-    "id": "legato",
-    "name": "Legato",
-    "description": "Playing musical notes smoothly and connected, often using hammer-ons and pull-offs to avoid picking every note.",
-    "guitaristId": "eddie_van_halen",
-    "defaultMetrics": [
-      { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" },
-      { "id": "accuracy", "label": "Accuracy", "unit": "%" }
-    ]
-  },
-  {
-    "id": "two_hand_tapping",
-    "name": "Two-Hand Tapping",
-    "description": "Using both hands on the fretboard to tap notes, allowing for wide intervals and fast passages.",
-    "guitaristId": "eddie_van_halen",
-    "defaultMetrics": [
-      { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" },
-      { "id": "cleanliness", "label": "Cleanliness (1-10)", "unit": "" }
-    ]
-  },
-  {
-    "id": "divebombs",
-    "name": "Divebombs",
-    "description": "Using the whammy bar to dramatically drop the pitch of a note and, optionally, return it.",
-    "guitaristId": "dimebag_darrell",
-    "defaultMetrics": [
-      { "id": "return_pitch", "label": "Return to Pitch Accuracy", "unit": "%" }
-    ]
-  },
-  {
     "id": "pinch_harmonics",
     "name": "Pinch Harmonics",
     "description": "A guitar technique to achieve high-pitched, 'squealing' harmonics by grazing the string with the thumb of the picking hand.",
@@ -147,13 +118,51 @@ const TECHNIQUES_DATA = [
     ]
   },
   {
-    "id": "shred_legato",
-    "name": "Shred Legato",
-    "description": "A very fast, aggressive form of legato playing often incorporating 3-note-per-string scales and complex patterns.",
+    "id": "legato",
+    "name": "Legato",
+    "description": "Playing musical notes smoothly and connected, often using hammer-ons and pull-offs to avoid picking every note.",
+    "guitaristId": "dimebag_darrell",
+    "defaultMetrics": [
+      { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" },
+      { "id": "accuracy", "label": "Accuracy", "unit": "%" }
+    ]
+  },
+  {
+    "id": "sweep_picking",
+    "name": "Sweep Picking",
+    "description": "A guitar technique where you use a single, smooth hand motion to sweep the pick across multiple strings, playing notes of an arpeggio (broken chord) rapidly and cleanly.",
     "guitaristId": "alexi_laiho",
     "defaultMetrics": [
       { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" },
-      { "id": "stamina", "label": "Stamina (seconds)", "unit": "sec" }
+      { "id": "accuracy", "label": "Accuracy", "unit": "%" }
+    ]
+  },
+  {
+    "id": "tremolo_picking",
+    "name": "Tremolo Picking",
+    "description": "A technique using rapid, alternating up-and-down strokes on a single note to create a sustained, quivering sound.",
+    "guitaristId": "alexi_laiho",
+    "defaultMetrics": [
+      { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" }
+    ]
+  },
+  {
+    "id": "two_hand_tapping",
+    "name": "Two-Hand Tapping",
+    "description": "Using both hands on the fretboard to tap notes, allowing for wide intervals and fast passages.",
+    "guitaristId": "eddie_van_halen",
+    "defaultMetrics": [
+      { "id": "speed", "label": "Speed (BPM)", "unit": "bpm" },
+      { "id": "accuracy", "label": "Accuracy", "unit": "%" }
+    ]
+  },
+  {
+    "id": "harmonic_squeals",
+    "name": "Harmonic Squeals",
+    "description": "Using the whammy bar to dramatically drop the pitch of a note and, optionally, return it.",
+    "guitaristId": "dimebag_darrell",
+    "defaultMetrics": [
+      { "id": "consistency", "label": "Consistency", "unit": "%" }
     ]
   }
 ];
@@ -273,6 +282,13 @@ const StatGraph = ({ data, dataKey, name, unit, isPrint = false }) => {
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis 
         dataKey="date" 
+        // UPDATED: Forces every data point to show a label (interval={0})
+        interval={0}
+        // UPDATED: Rotates labels to prevent overlap
+        angle={-45}
+        textAnchor="end"
+        // UPDATED: Increases height to accommodate rotated labels
+        height={60}
         tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
       />
       <YAxis label={{ value: unit, angle: -90, position: 'insideLeft', dy: 30, dx: 12 }} />
@@ -291,7 +307,7 @@ const StatGraph = ({ data, dataKey, name, unit, isPrint = false }) => {
         width={700} 
         height={300} 
         data={data} 
-        margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+        margin={{ top: 5, right: 30, left: 0, bottom: 20 }}
       >
         {chartComponents}
       </LineChart>
@@ -299,7 +315,7 @@ const StatGraph = ({ data, dataKey, name, unit, isPrint = false }) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
         {chartComponents}
       </LineChart>
