@@ -464,6 +464,9 @@ const AuthScreen = () => {
             {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
           </button>
         </div>
+        <div className="mt-4 text-center text-xs text-gray-400">
+          Privacy Notice: This application is a personal project not designed for production use. We respect your privacy and aim to minimise data collection at all times. This application does not use cookies, analytics, tracking, advertising, or marketing technologies. The app allows account creation using Firebase (your email address is used only to create and manage your account via Firebase authentication). Non-personal app settings may be stored locally in your browser. Assets may be delivered via third-party CDNs (e.g. Tailwind).
+        </div>
       </div>
     </div>
   );
