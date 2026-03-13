@@ -1,4 +1,4 @@
-# **Shred Test - Guitar Technique Tracker**
+# **Shred Stats - Guitar Technique Tracker**
 
 I created this React application to help my daughter track her practice progress, manage training plans, and visualize improvement over time. Built with **React**, **Vite**, and **Firebase**.
 
